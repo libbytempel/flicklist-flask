@@ -13,15 +13,18 @@ terrible_movies = [
     "Nine Lives",
     "Starship Troopers"
 ]
+watchlist = []
 
 def get_current_watchlist():
     # returns user's current watchlist--hard coded for now
-    return [ "Star Wars", "Minions", "Freaky Friday", "My Favorite Martian" ]
+    return []
+#    return [ "Star Wars", "Minions", "Freaky Friday", "My Favorite Martian" ]
 
 
 @app.route("/crossoff", methods=['POST'])
 def crossoff_movie():
     crossed_off_movie = request.form['crossed-off-movie']
+    watchlist.remove(crossed_off_movie)
 
     if crossed_off_movie not in get_current_watchlist():
         # the user tried to cross off a movie that isn't in their list,
@@ -38,6 +41,8 @@ def crossoff_movie():
 def add_movie():
     # look inside the request to figure out what the user typed
     new_movie = request.form['new-movie']
+    watchlist.append(new_movie)
+
 
     # if the user typed nothing at all, redirect and tell them the error
     if (not new_movie) or (new_movie.strip() == ""):
@@ -55,7 +60,7 @@ def add_movie():
     # TODO:
     # Create a template called add-confirmation.html inside your /templates directory
     # Use that template to render the confirmation message instead of this temporary message below
-    return "Confirmation Message Under Construction..."
+    return render_template('add-confirmation.html', new_movie=new_movie)
 
 # TODO:
 # Modify the edit.html file to display the watchlist in an unordered list with bullets in front of each movie.
@@ -71,6 +76,6 @@ def add_movie():
 @app.route("/")
 def index():
     encoded_error = request.args.get("error")
-    return render_template('edit.html', watchlist=get_current_watchlist(), error=encoded_error and cgi.escape(encoded_error, quote=True))
+    return render_template('edit.html', watchlist=watchlist, error=encoded_error and cgi.escape(encoded_error, quote=True))
 
 app.run()
