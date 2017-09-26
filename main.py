@@ -42,7 +42,7 @@ crossoff_form = """
         <label for="remove-movie">
             I want to crossoff
             <select name="remove-movie">
-            <option value="Happy Gilmore">Happy Gilmore</option>
+            <option value="Happy Gilmore">Happy </option>
             <option value="The Ten Commandments">The Ten Commandments</option>
             <option value="What about Bob?">What about Bob?</option>
             to my watchlist.
